@@ -26,8 +26,7 @@ public class GenerateDatabase {
             7,              // q8
             63,             // q9
             7,              // q10
-            1,              // q11
-            15,             // q12
+            15,             // q11
     };
 
     /*
@@ -79,6 +78,10 @@ public class GenerateDatabase {
 
     private static int getValue(int index) {
         return RANDOM.nextInt(0, QUESTION_MAXIMUMS[index] + 1);
+    }
+
+    public static int[] getQuestionMaximums() {
+        return QUESTION_MAXIMUMS;
     }
 
 }
