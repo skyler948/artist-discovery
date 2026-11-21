@@ -1,11 +1,22 @@
 What is your second favorite day of the week? (Monday-Sunday)
+6
 How many snacks do you eat per day? (0-15)
+15
 Do you know a programming language? (0-1, n/y)
+1
 How many times do you go on a walk per day? (0-15)
+15
 Do you make your bed every morning? (0-1, n/y)
+1
 How many books do you read per week? (0-15)
+15
 Do you think 77 + 33 = 100? (0-1, n/y)
+1
 On a scale of 0-7, how good is SpongeBob? (0-7, terrible-amazing)
-On average, how many hours do you study per exam? (0-63)
+7
+On average, how many hours do you study per exam? (0-31)
+31
 On a scale of 0-7, how confident are you on solving quadratic equations? (0-7)
-How many animals do you have? (0-15)
+7
+How many animals do you have? (0-7)
+7

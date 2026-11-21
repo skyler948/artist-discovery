@@ -1,7 +1,5 @@
 package manager;
 
-import gen.GenerateDatabase;
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -18,19 +16,28 @@ public class QuestionManager {
     private File questionFile;
 
     private ArrayList<String> questions;
+    private ArrayList<Byte> questionMaximums;
+
     private byte[] answers;
 
     public QuestionManager(String questionPath) throws FileNotFoundException {
         questionFile = new File(questionPath);
         questions = new ArrayList<>();
+        questionMaximums = new ArrayList<>();
 
         if (!questionFile.exists() || !questionFile.isFile()) {
             throw new FileNotFoundException("Path does not point to a file.");
         }
 
+        int line = 0;
         Scanner scanner = new Scanner(questionFile);
         while (scanner.hasNextLine()) {
-            questions.add(scanner.nextLine());
+            line++;
+            if (line % 2 != 0) {
+                questions.add(scanner.nextLine());
+            } else {
+                questionMaximums.add(Byte.parseByte(scanner.nextLine()));
+            }
         }
         scanner.close();
 
@@ -50,14 +57,12 @@ public class QuestionManager {
         byte answer;
         boolean invalid;
 
-        int max = GenerateDatabase.getQuestionMaximums()[question];
-
         do {
             String input = scanner.nextLine().toLowerCase(Locale.ROOT).trim();
 
-            answer = validateQuestion(question, input, max);
+            answer = validateQuestion(question, input, questionMaximums.get(question));
 
-            invalid = (answer < 0 || answer > max);
+            invalid = (answer < 0 || answer > questionMaximums.get(question));
 
             if (invalid) {
                 System.out.println("Value is invalid! Try again.");

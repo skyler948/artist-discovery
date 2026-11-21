@@ -24,9 +24,9 @@ public class GenerateDatabase {
             15,             // q6
             1,              // q7
             7,              // q8
-            63,             // q9
+            31,             // q9
             7,              // q10
-            15,             // q11
+            7,             // q11
     };
 
     /*
