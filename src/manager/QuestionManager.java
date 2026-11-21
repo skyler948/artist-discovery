@@ -125,8 +125,16 @@ public class QuestionManager {
         return questions;
     }
 
+    public ArrayList<Byte> getQuestionMaximums() {
+        return questionMaximums;
+    }
+
     public byte[] getAnswers() {
         return answers;
+    }
+
+    public int getQuestionCount() {
+        return questions.size();
     }
 
 }
