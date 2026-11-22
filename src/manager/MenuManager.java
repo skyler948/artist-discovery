@@ -56,8 +56,15 @@ public class MenuManager {
         }
     }
 
-    private void discoverArtist() { // TODO: Finish this!
+    private void discoverArtist() {
         main.getQuestionManager().queryQuestions(main.getScanner());
+
+        float score = main.getScoreManager().calculateUserScore(main.getQuestionManager().getAnswers());
+        Artist artist = main.getScoreManager().getNearestArtistFromScore(score);
+
+        // TODO: Add more information to artist database file to display upon user input
+        System.out.printf("\n--- Your artist ---\n%s\nYour score: %.2f\nArtist score: %.2f\n\n",
+                artist, score, artist.getScore());
     }
 
     private byte rankArtistLoop() {

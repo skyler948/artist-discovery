@@ -51,7 +51,7 @@ public class Validation {
             return INVALID;
         }
 
-        if (value <= 0 || value > maxValue) return INVALID;
+        if (value < 0 || value > maxValue) return INVALID;
 
         return value;
     }

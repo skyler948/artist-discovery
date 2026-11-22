@@ -16,6 +16,7 @@ public class QuestionManager {
 
     private ArrayList<String> questions;
     private ArrayList<Byte> questionMaximums;
+    private ArrayList<Float> questionWeights;
 
     private byte[] answers;
 
@@ -23,6 +24,7 @@ public class QuestionManager {
         questionFile = new File(questionPath);
         questions = new ArrayList<>();
         questionMaximums = new ArrayList<>();
+        questionWeights = new ArrayList<>();
 
         if (!questionFile.exists() || !questionFile.isFile()) {
             throw new FileNotFoundException("Path does not point to a file.");
@@ -35,7 +37,9 @@ public class QuestionManager {
             if (line % 2 != 0) {
                 questions.add(scanner.nextLine());
             } else {
-                questionMaximums.add(Byte.parseByte(scanner.nextLine()));
+                String[] questionValues = scanner.nextLine().split(",");
+                questionMaximums.add(Byte.parseByte(questionValues[0]));
+                questionWeights.add(Float.parseFloat(questionValues[1]));
             }
         }
         scanner.close();
@@ -74,6 +78,10 @@ public class QuestionManager {
 
     public ArrayList<Byte> getQuestionMaximums() {
         return questionMaximums;
+    }
+
+    public ArrayList<Float> getQuestionWeights() {
+        return questionWeights;
     }
 
     public byte[] getAnswers() {
