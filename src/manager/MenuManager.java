@@ -1,16 +1,15 @@
 package manager;
 
 import artist.Artist;
+import input.Validation;
 import main.Main;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.Queue;
 
 public class MenuManager {
 
-    private static final byte INVALID = -1;
     private static final byte MAX_MAIN_MENU_CHOICE = 3;
     private static final byte RANKING = 25;
 
@@ -24,7 +23,7 @@ public class MenuManager {
 
     public void mainMenuLoop() {
         displayMainMenu();
-        byte choice = validateInput(main.getScanner().nextLine().trim(), MAX_MAIN_MENU_CHOICE);
+        byte choice = Validation.validateInput(main.getScanner().nextLine().trim(), MAX_MAIN_MENU_CHOICE);
         switch (choice) {
             case -1:
                 System.out.println("Invalid input! Try again.\n");
@@ -67,10 +66,10 @@ public class MenuManager {
         do {
             displayRankingMenu();
 
-            choice = validateInput(main.getScanner().nextLine().trim(), (byte) main.getQuestionManager().getQuestionCount());
+            choice = Validation.validateInput(main.getScanner().nextLine().trim(), (byte) main.getQuestionManager().getQuestionCount());
 
-            if (choice == INVALID || choice == 1) System.out.println("Invalid input! Try again.\n");
-        } while (choice == INVALID || choice == 1);
+            if (choice == Validation.INVALID || choice == 1) System.out.println("Invalid input! Try again.\n");
+        } while (choice == Validation.INVALID || choice == 1);
 
         return choice;
     }
@@ -108,20 +107,6 @@ public class MenuManager {
             topArtists.poll();
         }
         System.out.println();
-    }
-
-    private byte validateInput(String input, byte maxValue) { // TODO: Move validation & associated constants to its own class
-        byte value;
-
-        try {
-            value = Byte.parseByte(input);
-        } catch (NumberFormatException e) {
-            return INVALID;
-        }
-
-        if (value <= 0 || value > maxValue) return INVALID;
-
-        return value;
     }
 
     private void exit() {

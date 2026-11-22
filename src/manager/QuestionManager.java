@@ -1,5 +1,7 @@
 package manager;
 
+import input.Validation;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -8,10 +10,7 @@ import java.util.Scanner;
 
 public class QuestionManager {
 
-    private static final byte INVALID = -1;
-    private static final byte DAY_QUESTION = 0;
-    private static final byte NO = 0;
-    private static final byte YES = 1;
+    public static final byte DAY_QUESTION = 0;
 
     private File questionFile;
 
@@ -47,78 +46,26 @@ public class QuestionManager {
     public void queryQuestions(Scanner scanner) {
         System.out.println("Give an answer to each question.");
 
-        for (int i = 0; i < answers.length; i++) {
+        for (byte i = 0; i < answers.length; i++) {
             System.out.println(questions.get(i));
             answers[i] = validationLoop(scanner, i);
         }
     }
 
-    private byte validationLoop(Scanner scanner, int question) {
+    private byte validationLoop(Scanner scanner, byte question) {
         byte answer;
-        boolean invalid;
 
         do {
             String input = scanner.nextLine().toLowerCase(Locale.ROOT).trim();
 
-            answer = validateQuestion(question, input, questionMaximums.get(question));
+            answer = Validation.validateInput(input, questionMaximums.get(question), question);
 
-            invalid = (answer < 0 || answer > questionMaximums.get(question));
-
-            if (invalid) {
+            if (answer == Validation.INVALID) {
                 System.out.println("Value is invalid! Try again.");
             }
-        } while (invalid);
+        } while (answer == Validation.INVALID);
         
         return answer;
-    }
-
-    private byte validateQuestion(int question, String input, int max) {
-        byte answer;
-
-        try {
-            answer = Byte.parseByte(input);
-        } catch (NumberFormatException e) {
-            if (question == DAY_QUESTION) {
-                return convertDays(input);
-            }
-
-            if (input.equals("n") && (max == 1)) {
-                return NO;
-            } else if (input.equals("y") && (max == 1)) {
-                return YES;
-            }
-
-            return INVALID;
-        }
-
-        return answer;
-    }
-
-    private byte convertDays(String day) {
-        return switch (day) {
-            case "monday",
-                 "mon",
-                 "m" -> 0;
-            case "tuesday",
-                 "tues", "tue",
-                 "tu" -> 1;
-            case "wednesday",
-                 "wed",
-                 "w" -> 2;
-            case "thursday",
-                 "thurs", "thu",
-                 "th" -> 3;
-            case "friday",
-                 "fri",
-                 "f" -> 4;
-            case "saturday",
-                 "sat",
-                 "sa" -> 5;
-            case "sunday",
-                 "sun",
-                 "su" -> 6;
-            default -> INVALID;
-        };
     }
 
     public ArrayList<String> getQuestions() {
