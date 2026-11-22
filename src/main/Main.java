@@ -1,10 +1,10 @@
 package main;
 
 import manager.DatabaseManager;
+import manager.MenuManager;
 import manager.QuestionManager;
 
 import java.io.FileNotFoundException;
-import java.util.Arrays;
 import java.util.Scanner;
 
 public class Main {
@@ -13,6 +13,7 @@ public class Main {
 
     private QuestionManager questionManager;
     private DatabaseManager databaseManager;
+    private MenuManager menuManager;
 
     public Main() {
         scanner = new Scanner(System.in);
@@ -23,10 +24,12 @@ public class Main {
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         }
-        System.out.println(databaseManager.getArtists().get(1));
 
-        questionManager.queryQuestions(scanner);
-        System.out.println(Arrays.toString(questionManager.getAnswers()));
+        menuManager = new MenuManager(this);
+        
+        while (menuManager.isRunning()) {
+            menuManager.mainMenuLoop();
+        }
 
         scanner.close();
     }
@@ -37,6 +40,10 @@ public class Main {
 
     public DatabaseManager getDatabaseManager() {
         return databaseManager;
+    }
+
+    public Scanner getScanner() {
+        return scanner;
     }
 
     public static void main(String[] args) {
