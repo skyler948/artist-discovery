@@ -29,14 +29,19 @@ public class DatabaseManager {
         while (scanner.hasNextLine()) {
             String[] line = scanner.nextLine().split(",");
 
+            String name = line[0];
+            String genre = line[1];
+            short monthlyListeners = Short.parseShort(line[2]);
+            boolean active = Boolean.parseBoolean(line[3]);
+
             long data = 0;
             for (int i = main.getQuestionManager().getQuestionCount(); i >= 1; i--) {
-                byte field = Byte.parseByte(line[i]);
+                byte field = Byte.parseByte(line[i + 3]);
                 data |= field;
                 data = data << Artist.QUESTION_DATA_BIT;
             }
 
-            artists.add(new Artist(line[0], data, main));
+            artists.add(new Artist(name, genre, data, monthlyListeners, active, main));
         }
         scanner.close();
     }

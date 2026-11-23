@@ -10,14 +10,20 @@ public class Artist {
     private static final byte QUESTION_DATA_MASK = 0x1F;
 
     private String name;
-    private long questionData; // All data is in one variable to save memory
+    private String genre;
+    private long questionData;
+    private short monthlyListeners;
     private float score;
+    private boolean active;
 
     private Main main;
 
-    public Artist(String name, long questionData, Main main) {
+    public Artist(String name, String genre, long questionData, short monthlyListeners, boolean active, Main main) {
         this.name = name;
+        this.genre = genre;
         this.questionData = questionData;
+        this.monthlyListeners = monthlyListeners;
+        this.active = active;
         this.main = main;
         this.score = calculateArtistScore();
     }
@@ -64,11 +70,31 @@ public class Artist {
             builder.append(main.getQuestionManager().getQuestionMaximums().get(i));
             builder.append((i != main.getQuestionManager().getQuestionCount() - 1) ? ", " : " ");
         }
+        builder.append("\n");
+        builder.append("Monthly listeners: ");
+        builder.append(monthlyListeners);
+        builder.append(" | Main genre: ");
+        builder.append(genre);
+        builder.append(" | Active? ");
+        builder.append(active ? "Yes" : "No");
+
         return builder.toString();
     }
 
     public float getScore() {
         return score;
+    }
+
+    public short getMonthlyListeners() {
+        return monthlyListeners;
+    }
+
+    public String getGenre() {
+        return genre;
+    }
+
+    public boolean isActive() {
+        return active;
     }
 
 }

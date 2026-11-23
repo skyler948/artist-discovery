@@ -14,6 +14,8 @@ public class GenerateDatabase {
     private static final String OUTPUT_PATH = "text/database.txt";
     private static final char SEPARATOR = ',';
     private static final int SEED = 1403953;
+    private static final int MONTHLY_LISTENER_MAX = 5000;
+    private static final float ACTIVE_PERCENTAGE = 0.90f;
     private static final Random RANDOM = new Random(SEED);
     private static final int[] QUESTION_MAXIMUMS = new int[]{
             6,              // q1
@@ -27,6 +29,12 @@ public class GenerateDatabase {
             31,             // q9
             7,              // q10
             7,             // q11
+    };
+    private static final String[] GENRES = new String[]{
+            "Country", "Rock", "Metal", "Blues", "Alternative",
+            "Classical", "Comedy", "Dance", "Electronic",
+            "Rap", "Hip-Hop", "Industrial", "Inspirational",
+            "Jazz", "Pop", "Opera", "Reggae"
     };
 
     /*
@@ -60,6 +68,12 @@ public class GenerateDatabase {
 
             for (String name : names) {
                 StringBuilder builder = new StringBuilder(name);
+                builder.append(SEPARATOR);
+                builder.append(GENRES[RANDOM.nextInt(0, GENRES.length)]);
+                builder.append(SEPARATOR);
+                builder.append(RANDOM.nextInt(0, MONTHLY_LISTENER_MAX));
+                builder.append(SEPARATOR);
+                builder.append(isStillActive());
 
                 for (int i = 0; i < QUESTION_MAXIMUMS.length; i++) {
                     builder.append(SEPARATOR);
@@ -78,6 +92,11 @@ public class GenerateDatabase {
 
     private static int getValue(int index) {
         return RANDOM.nextInt(0, QUESTION_MAXIMUMS[index] + 1);
+    }
+
+    private static boolean isStillActive() {
+        float proportion = RANDOM.nextFloat(0, 1);
+        return proportion <= ACTIVE_PERCENTAGE;
     }
 
     public static int[] getQuestionMaximums() {
