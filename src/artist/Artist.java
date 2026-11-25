@@ -70,15 +70,13 @@ public class Artist {
             builder.append(main.getQuestionManager().getQuestionMaximums().get(i));
             builder.append((i != main.getQuestionManager().getQuestionCount() - 1) ? ", " : " ");
         }
-        builder.append("\n");
-        builder.append("Monthly listeners: ");
-        builder.append(monthlyListeners);
-        builder.append(" | Main genre: ");
-        builder.append(genre);
-        builder.append(" | Active? ");
-        builder.append(active ? "Yes" : "No");
 
         return builder.toString();
+    }
+
+    public void displayInformation() {
+        System.out.printf("Artist name: %s\nPrimary genre: %s\nMonthly listeners: %d\nQuestion score: %.2f\nActive? %s\n",
+                name, genre, monthlyListeners, score, (active ? "Yes" : "No"));
     }
 
     public float getScore() {

@@ -47,7 +47,7 @@ public class MenuManager {
 
     private void displayMainMenu() { // TODO: What other options can we have here?
         System.out.println("""
-                --- Choose an option ---
+                --- Choose an Option ---
                 1 - Discover your artist!
                 2 - See artist rankings by score
                 3 - Exit""");
@@ -62,14 +62,16 @@ public class MenuManager {
     }
 
     private void discoverArtist() {
+        System.out.println();
         main.getQuestionManager().queryQuestions(main.getScanner());
 
         float score = main.getScoreManager().calculateUserScore(main.getQuestionManager().getAnswers());
         Artist artist = main.getScoreManager().getNearestArtistFromScore(score);
 
-        // TODO: Add more information to artist database file to display upon user input
-        System.out.printf("\n--- Your artist ---\n%s\nYour score: %.2f\nArtist score: %.2f\n\n",
-                artist, score, artist.getScore());
+        System.out.println("\n--- Your Artist ---");
+        artist.displayInformation();
+        System.out.printf("\nYour score: %.2f\nDifference: %.2f\n\n",
+                score, (artist.getScore() - score));
     }
 
     private byte rankArtistLoop() {
@@ -111,7 +113,7 @@ public class MenuManager {
         Queue<Artist> artistsRanked = getQueueOfArtists(question, artists);
         if (artistsRanked == null) return;
 
-        System.out.printf("\n--- Top %s results ---\n", RANKING);
+        System.out.printf("\n--- Top %s %s Results ---\n", RANKING, getRankingMode(question));
         while (!artistsRanked.isEmpty()) {
             Artist artist = artistsRanked.poll();
 
@@ -129,6 +131,16 @@ public class MenuManager {
             case HIGH -> new LinkedList<>(source.subList(0, RANKING));
             case AVERAGE -> new LinkedList<>(source.subList(middle - deviation, middle + deviation));
             case LOW -> new LinkedList<>(source.subList(source.size() - RANKING, source.size()));
+
+            default -> null;
+        };
+    }
+
+    private String getRankingMode(byte mode) {
+        return switch (mode) {
+            case HIGH -> "Highest";
+            case AVERAGE -> "Average";
+            case LOW -> "Lowest";
 
             default -> null;
         };
